@@ -1,6 +1,6 @@
 # Image Watermarker
 
-![example](https://github.com/user-attachments/assets/52ed544c-e4bd-4f19-83e9-3bbb64509fb1)
+![Example](https://github.com/user-attachments/assets/0116dcc1-a297-4466-b37e-998704fb95eb)
 
 A bash script to add subtle watermarks to images in a directory.
 
