@@ -29,19 +29,21 @@ for img in "$directory"/*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}; do
     
     filename=$(basename "$img")
     echo "Processing: $filename"
-    
 
     convert "$img" \
-        -fill 'rgba(255,255,255,0.1)' -pointsize 20 \
-        -gravity NorthWest -annotate +10+10 "$watermark_text" \
-        -gravity North -annotate +0+10 "$watermark_text" \
-        -gravity NorthEast -annotate +10+10 "$watermark_text" \
-        -gravity West -annotate +10+0 "$watermark_text" \
-        -gravity Center -annotate +0+0 "$watermark_text" \
-        -gravity East -annotate +10+0 "$watermark_text" \
-        -gravity SouthWest -annotate +10+10 "$watermark_text" \
-        -gravity South -annotate +0+10 "$watermark_text" \
-        -gravity SouthEast -annotate +10+10 "$watermark_text" \
+        \( -size 1000x1000 -background none -fill 'rgba(255,255,255,0.6)' \
+           -gravity Center -pointsize 48 -font Arial-Bold \
+           label:"$watermark_text" -rotate -30 \
+           -virtual-pixel transparent -distort SRT 1.2 \) \
+        -compose multiply -composite \
+        \( -clone 0 -fill 'rgba(0,0,0,0.4)' \
+           -draw "rectangle 0,0 1000,80" \
+           -fill white -gravity North -pointsize 36 -annotate +0+20 "$watermark_text" \) \
+        -compose over -composite \
+        \( -clone 0 -fill 'rgba(0,0,0,0.4)' \
+           -draw "rectangle 0,920 1000,1000" \
+           -fill white -gravity South -pointsize 36 -annotate +0+20 "$watermark_text" \) \
+        -compose over -composite \
         "$temp_dir/$filename"
 
     if [ -f "$temp_dir/$filename" ]; then
